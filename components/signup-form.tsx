@@ -61,101 +61,107 @@ export default function SignupForm() {
 	}
 
 	return (
-		<Form {...form}>
-			<form
-				onSubmit={form.handleSubmit(handleCreateUser)}
-				className="space-y-8"
-			>
-				<FormField
-					control={form.control}
-					name="username"
-					render={({ field }) => (
-						<FormItem>
-							<FormLabel>Username</FormLabel>
-							<FormControl>
-								<Input placeholder="Username" {...field} />
-							</FormControl>
-							<FormMessage />
-						</FormItem>
-					)}
-				/>
-				<FormField
-					control={form.control}
-					name="email"
-					render={({ field }) => (
-						<FormItem>
-							<FormLabel>Email</FormLabel>
-							<FormControl>
-								<Input placeholder="Email" {...field} />
-							</FormControl>
-							<FormMessage />
-						</FormItem>
-					)}
-				/>
-				<FormField
-					control={form.control}
-					name="name"
-					render={({ field }) => (
-						<FormItem>
-							<FormLabel>Name</FormLabel>
-							<FormControl>
-								<Input placeholder="Name" {...field} />
-							</FormControl>
-							<FormMessage />
-						</FormItem>
-					)}
-				/>
-				<FormField
-					control={form.control}
-					name="role"
-					render={({ field }) => (
-						<FormItem>
-							<FormLabel>Role</FormLabel>
-							<Select onValueChange={field.onChange} defaultValue={field.value}>
+		<div className="space-y-5 w-full mr-5 my-8">
+			<h3 className="font-medium text-2xl">Register a student account</h3>
+			<Form {...form}>
+				<form
+					onSubmit={form.handleSubmit(handleCreateUser)}
+					className="space-y-8 w-full"
+				>
+					<FormField
+						control={form.control}
+						name="username"
+						render={({ field }) => (
+							<FormItem>
+								<FormLabel>Username</FormLabel>
 								<FormControl>
-									<SelectTrigger>
-										<SelectValue placeholder="Select Role" />
-									</SelectTrigger>
+									<Input placeholder="Username" {...field} />
 								</FormControl>
-								<SelectContent>
-									<SelectItem value="driver">Driver</SelectItem>
-									<SelectItem value="student">Student</SelectItem>
-									<SelectItem value="admin">Admin</SelectItem>
-								</SelectContent>
-							</Select>
-							<FormMessage />
-						</FormItem>
-					)}
-				/>
-				<FormField
-					control={form.control}
-					name="phone_num"
-					render={({ field }) => (
-						<FormItem>
-							<FormLabel>Phone Number</FormLabel>
-							<FormControl>
-								<Input placeholder="Phone Number" {...field} />
-							</FormControl>
-							<FormMessage />
-						</FormItem>
-					)}
-				/>
-				<FormField
-					control={form.control}
-					name="password"
-					render={({ field }) => (
-						<FormItem>
-							<FormLabel>Password</FormLabel>
-							<FormControl>
-								<Input type="password" placeholder="Password" {...field} />
-							</FormControl>
-							<FormMessage />
-						</FormItem>
-					)}
-				/>
-				<Button type="submit">Create User</Button>
-				{message && <p>{message}</p>}
-			</form>
-		</Form>
+								<FormMessage />
+							</FormItem>
+						)}
+					/>
+					<FormField
+						control={form.control}
+						name="email"
+						render={({ field }) => (
+							<FormItem>
+								<FormLabel>Email</FormLabel>
+								<FormControl>
+									<Input placeholder="Email" {...field} />
+								</FormControl>
+								<FormMessage />
+							</FormItem>
+						)}
+					/>
+					<FormField
+						control={form.control}
+						name="name"
+						render={({ field }) => (
+							<FormItem>
+								<FormLabel>Name</FormLabel>
+								<FormControl>
+									<Input placeholder="Name" {...field} />
+								</FormControl>
+								<FormMessage />
+							</FormItem>
+						)}
+					/>
+					<FormField
+						control={form.control}
+						name="role"
+						render={({ field }) => (
+							<FormItem>
+								<FormLabel>Role</FormLabel>
+								<Select
+									onValueChange={field.onChange}
+									defaultValue={field.value}
+								>
+									<FormControl>
+										<SelectTrigger>
+											<SelectValue placeholder="Select Role" />
+										</SelectTrigger>
+									</FormControl>
+									<SelectContent>
+										<SelectItem value="driver">Driver</SelectItem>
+										<SelectItem value="student">Student</SelectItem>
+										<SelectItem value="admin">Admin</SelectItem>
+									</SelectContent>
+								</Select>
+								<FormMessage />
+							</FormItem>
+						)}
+					/>
+					<FormField
+						control={form.control}
+						name="phone_num"
+						render={({ field }) => (
+							<FormItem>
+								<FormLabel>Phone Number</FormLabel>
+								<FormControl>
+									<Input placeholder="Phone Number" {...field} />
+								</FormControl>
+								<FormMessage />
+							</FormItem>
+						)}
+					/>
+					<FormField
+						control={form.control}
+						name="password"
+						render={({ field }) => (
+							<FormItem>
+								<FormLabel>Password</FormLabel>
+								<FormControl>
+									<Input type="password" placeholder="Password" {...field} />
+								</FormControl>
+								<FormMessage />
+							</FormItem>
+						)}
+					/>
+					<Button type="submit">Create User</Button>
+					{message && <p>{message}</p>}
+				</form>
+			</Form>
+		</div>
 	)
 }
