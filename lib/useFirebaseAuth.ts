@@ -87,6 +87,22 @@ const useFirebaseAuth = () => {
 		}
 	}
 
+	const getUsersByRole = async (role: string): Promise<User[]> => {
+		const q = query(collection(db, 'users'), where('role', '==', role))
+		const querySnapshot = await getDocs(q)
+
+		if (querySnapshot.empty) {
+			return []
+		}
+
+		const users: User[] = querySnapshot.docs.map((doc) => {
+			const data = doc.data() as User
+			return { ...data, user_id: doc.id }
+		})
+
+		return users
+	}
+
 	const logout = async (): Promise<void> => {
 		try {
 			await auth.signOut()
@@ -103,6 +119,7 @@ const useFirebaseAuth = () => {
 		createUser,
 		loginWithUsername,
 		logout,
+		getUsersByRole,
 	}
 }
 

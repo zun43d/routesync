@@ -1,38 +1,16 @@
-import Navbar from '@/components/navbar'
-import SignupForm from '@/components/signup-form'
-import ProtectedRoute from '@/components/protected_route'
-import { ContactRound, Route, Car } from 'lucide-react'
+import AdminPanel from '@/layout/admin-panel'
 
-const data = {
-	nav: [
-		{ name: 'Students', icon: ContactRound },
-		{ name: 'Drivers', icon: Car },
-		{ name: 'Routes', icon: Route },
-	],
-}
-
-export default function AdminPanel() {
+export default function AdminPage() {
 	return (
-		<ProtectedRoute>
-			<div className="admin-panel">
-				<Navbar />
-				<div className="flex w-full gap-5">
-					<aside className="flex flex-col justify-start items-start gap-3 text-lg max-w-56 w-full h-full border-r py-5">
-						{data.nav.map((item, index) => (
-							<a
-								key={index}
-								href="#"
-								className="w-full flex items-center gap-2 p-3 hover:bg-gray-100"
-							>
-								<item.icon />
-								<span>{item.name}</span>
-							</a>
-						))}
-					</aside>
-
-					<SignupForm />
+		<AdminPanel>
+			<div className="flex flex-1 flex-col gap-4 p-4 pt-0 w-full">
+				<div className="grid auto-rows-min gap-4 md:grid-cols-3">
+					<div className="aspect-video rounded-xl bg-muted" />
+					<div className="aspect-video rounded-xl bg-muted" />
+					<div className="aspect-video rounded-xl bg-muted" />
 				</div>
+				<div className="min-h-[100vh] flex-1 rounded-xl bg-muted md:min-h-[20vh]" />
 			</div>
-		</ProtectedRoute>
+		</AdminPanel>
 	)
 }
