@@ -2,7 +2,7 @@ import { useMemo, useState } from 'react'
 import {
 	GoogleMap,
 	LoadScript,
-	Marker,
+	MarkerF,
 	useGoogleMap,
 } from '@react-google-maps/api'
 import { Locate } from 'lucide-react'
@@ -81,9 +81,10 @@ const GoogleMapComponent = (props: MapProps) => {
 					// colorScheme: 'DARK',
 					fullscreenControl: false,
 					streetViewControl: false,
+					mapTypeControl: false,
 				}}
 			>
-				<Marker position={center} />
+				<MarkerF position={center} />
 				<button
 					onClick={() => setStart(!start)}
 					className="absolute top-0 right-0 bg-white p-2"

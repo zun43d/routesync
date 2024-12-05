@@ -39,7 +39,7 @@ export default function AdminPanel() {
 	return (
 		<ProtectedRoute>
 			<div>
-				<Navbar className="max-w-7xl w-full absolute left-1/2 -translate-x-1/2 bg-white shadow-2xl mt-3 rounded-xl" />
+				<Navbar className="xl:max-w-7xl w-11/12 xl:w-full absolute left-1/2 -translate-x-1/2 bg-white shadow-2xl mt-3 rounded-full xl:rounded-xl" />
 				<Map
 					position={coords}
 					setPos={setCoords}

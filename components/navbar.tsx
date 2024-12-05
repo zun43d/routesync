@@ -17,15 +17,22 @@ export default function Navbar({ className }: { className?: string }) {
 	return (
 		<nav
 			className={cn(
-				'flex items-center justify-between p-5 border-b border-gray-100 z-50',
+				'flex items-center justify-between py-3 px-4 border-b border-gray-100 z-50',
 				className
 			)}
 		>
 			<div className="flex items-center justify-center gap-2">
-				<Image src="/logo.svg" alt="RouteSync Logo" width={50} height={50} />
-				<h1 className="text-2xl font-semibold">RouteSync</h1>
+				<Image src="/logo.svg" alt="RouteSync Logo" width={35} height={35} />
+				<h1 className="text-xl font-semibold">RouteSync</h1>
 			</div>
-			<Button onClick={handleLogout}>Logout</Button>
+			<Button
+				size="sm"
+				variant="outline"
+				className="rounded-full xl:rounded-xl"
+				onClick={handleLogout}
+			>
+				Logout
+			</Button>
 		</nav>
 	)
 }
