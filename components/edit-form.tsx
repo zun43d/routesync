@@ -34,39 +34,39 @@ const formSchema = z.object({
 	phone_num: z
 		.string()
 		.min(10, { message: 'Phone number must be at least 10 digits.' }),
-	password: z
-		.string()
-		.min(6, { message: 'Password must be at least 6 characters.' }),
 })
 
-export default function SignupForm() {
+export default function EditForm({
+	data,
+	setOpen,
+}: {
+	data: User
+	setOpen: React.Dispatch<React.SetStateAction<boolean>>
+}) {
 	const [message, setMessage] = useState('')
+	const { setUserData } = useAuth()
 
-	const { createUser } = useAuth()
-
-	const form = useForm<Omit<User, 'user_id'> & { password: string }>({
+	const form = useForm<User>({
 		resolver: zodResolver(formSchema),
+		defaultValues: data,
 	})
 
-	const handleCreateUser = async (
-		data: Omit<User, 'user_id'> & { password: string }
-	) => {
+	const handleUpdateUser = async (formData: User) => {
 		try {
-			const { password, ...userData } = data
-			await createUser(userData, password)
-			setMessage('User created successfully')
+			const { user_id } = data
+			await setUserData(user_id, formData)
+			setOpen(false)
 		} catch (error) {
 			setMessage((error as Error).message)
 		}
 	}
 
 	return (
-		<div className="space-y-5 w-full mr-5 my-8">
-			<h3 className="font-medium text-2xl">Register a student account</h3>
+		<div className="space-y-5 w-full">
 			<Form {...form}>
 				<form
-					onSubmit={form.handleSubmit(handleCreateUser)}
-					className="space-y-8 w-full"
+					onSubmit={form.handleSubmit(handleUpdateUser)}
+					className="space-y-4 w-full"
 				>
 					<FormField
 						control={form.control}
@@ -145,20 +145,9 @@ export default function SignupForm() {
 							</FormItem>
 						)}
 					/>
-					<FormField
-						control={form.control}
-						name="password"
-						render={({ field }) => (
-							<FormItem>
-								<FormLabel>Password</FormLabel>
-								<FormControl>
-									<Input type="password" placeholder="Password" {...field} />
-								</FormControl>
-								<FormMessage />
-							</FormItem>
-						)}
-					/>
-					<Button type="submit">Create User</Button>
+					<Button type="submit" className="w-full">
+						Update User
+					</Button>
 					{message && <p>{message}</p>}
 				</form>
 			</Form>

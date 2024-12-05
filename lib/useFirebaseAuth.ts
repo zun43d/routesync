@@ -103,6 +103,14 @@ const useFirebaseAuth = () => {
 		return users
 	}
 
+	const setUserData = async (
+		user_id: string,
+		updatedData: Partial<User>
+	): Promise<void> => {
+		const docRef = doc(db, 'users', user_id)
+		await setDoc(docRef, updatedData, { merge: true })
+	}
+
 	const logout = async (): Promise<void> => {
 		try {
 			await auth.signOut()
@@ -120,6 +128,7 @@ const useFirebaseAuth = () => {
 		loginWithUsername,
 		logout,
 		getUsersByRole,
+		setUserData,
 	}
 }
 

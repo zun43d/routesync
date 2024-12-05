@@ -4,6 +4,7 @@ import { columns } from '@/components/data-table/columns'
 import { DataTable } from '@/components/data-table/table'
 import useFirebaseAuth from '@/lib/useFirebaseAuth'
 import type { User } from '@/types/user'
+import ModalForm from '@/components/modal-form'
 
 export default function StudentsPage() {
 	const { getUsersByRole } = useFirebaseAuth()
@@ -27,8 +28,11 @@ export default function StudentsPage() {
 
 	return (
 		<AdminPanel>
-			<h3 className="text-2xl">Driver Accounts</h3>
-			<div className="container mx-auto py-10">
+			<div className="flex items-center justify-between">
+				<h3 className="text-2xl">Driver Accounts</h3>
+				<ModalForm btnLabel="Add Driver" type="create" />
+			</div>
+			<div className="mx-auto py-10">
 				{loading ? (
 					<p>Loading...</p>
 				) : (

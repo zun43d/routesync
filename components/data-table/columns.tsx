@@ -1,7 +1,8 @@
 import type { User } from '@/types/user'
 import { ColumnDef } from '@tanstack/react-table'
-import { Trash2 } from 'lucide-react'
+import { Trash2, Pencil } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import ModalForm from '@/components/modal-form'
 
 const handleDelete = (id: string) => {
 	const confirmDelete = confirm('Are you sure you want to delete this user?')
@@ -42,12 +43,21 @@ export const columns: ColumnDef<User>[] = [
 			const user = row.original
 
 			return (
-				<Button
-					variant="destructive"
-					onClick={() => handleDelete(user.user_id)}
-				>
-					<Trash2 />
-				</Button>
+				<div className="space-x-2">
+					<ModalForm
+						btnLabel={<Pencil />}
+						btnSize="icon"
+						type="edit"
+						data={user}
+					/>
+					<Button
+						variant="destructive"
+						size="icon"
+						onClick={() => handleDelete(user.user_id)}
+					>
+						<Trash2 />
+					</Button>
+				</div>
 			)
 		},
 	},

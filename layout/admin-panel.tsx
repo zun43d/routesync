@@ -1,14 +1,14 @@
 import { ComponentPropsWithoutRef } from 'react'
 import Navbar from '@/components/navbar'
 import ProtectedRoute from '@/components/protected_route'
-import { ContactRound, Route, Car, LayoutDashboard } from 'lucide-react'
+import { ContactRound, Route, Bus, LayoutDashboard } from 'lucide-react'
 import Link from 'next/link'
 
 const data = {
 	nav: [
 		{ name: 'Dashboard', icon: LayoutDashboard, loc: '' },
 		{ name: 'Students', icon: ContactRound, loc: 'students' },
-		{ name: 'Drivers', icon: Car, loc: 'drivers' },
+		{ name: 'Drivers', icon: Bus, loc: 'drivers' },
 		{ name: 'Routes', icon: Route, loc: 'routes' },
 	],
 }
@@ -34,7 +34,7 @@ export default function AdminPanel(props: ComponentPropsWithoutRef<'div'>) {
 						))}
 					</aside>
 
-					<div className="p-5 w-full">{children}</div>
+					<div className="py-7 px-8 w-full">{children}</div>
 				</div>
 			</div>
 		</ProtectedRoute>
