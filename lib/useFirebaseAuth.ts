@@ -17,6 +17,7 @@ import {
 	onAuthStateChanged,
 	User as FirebaseUser,
 } from 'firebase/auth'
+import { type Route } from '@/types/route'
 
 const useFirebaseAuth = () => {
 	const [currentUser, setCurrentUser] = useState<User | null>(null)
@@ -111,6 +112,22 @@ const useFirebaseAuth = () => {
 		await setDoc(docRef, updatedData, { merge: true })
 	}
 
+	const getRoutes = async (): Promise<Route[]> => {
+		const q = query(collection(db, 'routes'))
+		const querySnapshot = await getDocs(q)
+
+		if (querySnapshot.empty) {
+			return []
+		}
+
+		const routes: Route[] = querySnapshot.docs.map((doc) => {
+			const data = doc.data() as Route
+			return { ...data, route_id: doc.id }
+		})
+
+		return routes
+	}
+
 	const logout = async (): Promise<void> => {
 		try {
 			await auth.signOut()
@@ -129,6 +146,7 @@ const useFirebaseAuth = () => {
 		logout,
 		getUsersByRole,
 		setUserData,
+		getRoutes,
 	}
 }
 

@@ -43,6 +43,8 @@ export default function MapDirections() {
 		() => ({
 			destination: dest,
 			origin: origin,
+			waypoints: [],
+			optimizeWaypoints: true,
 			travelMode: google.maps.TravelMode.DRIVING,
 		}),
 		[dest, origin]

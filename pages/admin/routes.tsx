@@ -1,34 +1,38 @@
 import { useEffect, useState } from 'react'
 import AdminPanel from '@/layout/admin-panel'
-import { columns } from '@/components/data-table/columns'
+import { columns } from '@/components/data-table/columns/routes'
 import { DataTable } from '@/components/data-table/table'
 import useFirebaseAuth from '@/lib/useFirebaseAuth'
-import type { User } from '@/types/user'
+import { type Route } from '@/types/route'
+import { Button } from '@/components/ui/button'
 
 export default function RoutesPage() {
-	const { getUsersByRole } = useFirebaseAuth()
-	const [data, setData] = useState<User[]>([])
+	const { getRoutes } = useFirebaseAuth()
+	const [data, setData] = useState<Route[]>([])
 	const [loading, setLoading] = useState(true)
 
 	useEffect(() => {
-		const fetchStudents = async () => {
+		const fetchRoutes = async () => {
 			try {
-				const students = await getUsersByRole('drivers')
-				setData(students)
+				const routes = await getRoutes()
+				setData(routes)
 			} catch (error) {
-				console.error('Error fetching drivers:', error)
+				console.error('Error fetching Routes:', error)
 			} finally {
 				setLoading(false)
 			}
 		}
 
-		fetchStudents()
-	}, [getUsersByRole])
+		fetchRoutes()
+	}, [getRoutes])
 
 	return (
 		<AdminPanel>
-			<h3 className="text-2xl">Driver Accounts</h3>
-			<div className="container mx-auto py-10">
+			<div className="flex items-center justify-between">
+				<h3 className="text-2xl">Routes</h3>
+				<Button variant="outline">Add Route</Button>
+			</div>
+			<div className="mx-auto py-10">
 				{loading ? (
 					<p>Loading...</p>
 				) : (

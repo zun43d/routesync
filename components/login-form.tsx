@@ -101,7 +101,7 @@ export function LoginForm() {
 							<span className="text-red-500">Password is required</span>
 						)}
 					</div>
-					<Button type="submit" className="w-full">
+					<Button type="submit" className="w-full" size="default">
 						Login
 					</Button>
 				</form>

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import AdminPanel from '@/layout/admin-panel'
-import { columns } from '@/components/data-table/columns'
+import { columns } from '@/components/data-table/columns/users'
 import { DataTable } from '@/components/data-table/table'
 import useFirebaseAuth from '@/lib/useFirebaseAuth'
 import type { User } from '@/types/user'

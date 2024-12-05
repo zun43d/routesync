@@ -145,7 +145,7 @@ export default function EditForm({
 							</FormItem>
 						)}
 					/>
-					<Button type="submit" className="w-full">
+					<Button type="submit" className="w-full" size="default">
 						Update User
 					</Button>
 					{message && <p>{message}</p>}

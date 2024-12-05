@@ -161,7 +161,7 @@ export default function CreateForm({
 							</FormItem>
 						)}
 					/>
-					<Button type="submit" className="w-full">
+					<Button type="submit" className="w-full" size="default">
 						Create User
 					</Button>
 					{message && <p>{message}</p>}
