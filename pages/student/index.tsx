@@ -28,16 +28,14 @@ export default function AdminPanel() {
 
 	return (
 		<ProtectedRoute>
-			<div className="">
-				<Navbar />
-				<div>
-					<Map
-						position={coords}
-						setPos={setCoords}
-						zoom={zoom}
-						className="h-[91vh]"
-					/>
-				</div>
+			<div>
+				<Navbar className="max-w-7xl w-full absolute left-1/2 -translate-x-1/2 bg-white shadow-2xl mt-3 rounded-xl" />
+				<Map
+					position={coords}
+					setPos={setCoords}
+					zoom={zoom}
+					className="h-[100vh] absolute top-0 -z-10"
+				/>
 			</div>
 		</ProtectedRoute>
 	)

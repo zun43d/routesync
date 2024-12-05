@@ -1,3 +1,4 @@
+import { useMemo, useState } from 'react'
 import {
 	GoogleMap,
 	LoadScript,
@@ -5,10 +6,11 @@ import {
 	useGoogleMap,
 } from '@react-google-maps/api'
 import { Locate } from 'lucide-react'
+import MapDirections from '@/components/map-directions'
 
 const containerStyle = {
 	width: '100%',
-	height: '91vh',
+	// height: '100vh',
 }
 
 interface MapProps {
@@ -46,7 +48,7 @@ function LocateBtn({ setPos, zoom }: Omit<MapProps, 'position' | 'className'>) {
 	return (
 		<button
 			onClick={handleLocate}
-			className="absolute bottom-48 right-3 locate-btn"
+			className="absolute bottom-32 right-3 locate-btn"
 		>
 			<Locate size={24} />
 		</button>
@@ -54,19 +56,41 @@ function LocateBtn({ setPos, zoom }: Omit<MapProps, 'position' | 'className'>) {
 }
 
 const GoogleMapComponent = (props: MapProps) => {
-	const { position, setPos, zoom } = props
+	const { position, setPos, zoom, className } = props
 
-	const center = {
-		lat: position[0],
-		lng: position[1],
-	}
+	const [start, setStart] = useState(false)
+
+	const center = useMemo(
+		() => ({
+			lat: position[0],
+			lng: position[1],
+		}),
+		[position]
+	)
 
 	return (
 		<LoadScript
 			googleMapsApiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || ''}
 		>
-			<GoogleMap mapContainerStyle={containerStyle} center={center} zoom={zoom}>
+			<GoogleMap
+				mapContainerClassName={className}
+				mapContainerStyle={containerStyle}
+				center={center}
+				zoom={zoom}
+				options={{
+					// colorScheme: 'DARK',
+					fullscreenControl: false,
+					streetViewControl: false,
+				}}
+			>
 				<Marker position={center} />
+				<button
+					onClick={() => setStart(!start)}
+					className="absolute top-0 right-0 bg-white p-2"
+				>
+					{start ? 'Stop' : 'Start'}
+				</button>
+				{start && <MapDirections />}
 				<LocateBtn setPos={setPos} zoom={zoom} />
 			</GoogleMap>
 		</LoadScript>
