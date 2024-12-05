@@ -103,3 +103,10 @@ body {
 		@apply bg-background text-foreground;
 	}
 }
+
+@layer components {
+	.locate-btn {
+		@apply rounded-sm flex justify-center items-center w-[40px] h-[40px] bg-white hover:cursor-pointer;
+		box-shadow: 0 1px 5px rgba(0, 0, 0, 0.65);
+	}
+}

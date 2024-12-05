@@ -1,31 +1,38 @@
-import { MapContainer, Marker, TileLayer, Popup, useMap } from 'react-leaflet'
+import {
+	GoogleMap,
+	LoadScript,
+	Marker,
+	useGoogleMap,
+} from '@react-google-maps/api'
 import { Locate } from 'lucide-react'
-import 'leaflet/dist/leaflet.css'
-import 'leaflet-defaulticon-compatibility'
-import 'leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css'
 
-interface MyMapProps {
+const containerStyle = {
+	width: '100%',
+	height: '91vh',
+}
+
+interface MapProps {
 	position: [number, number]
 	setPos: (pos: [number, number]) => void
 	zoom: number
 	className?: string
 }
 
-function LocateBtn({
-	setPos,
-	zoom,
-}: Omit<MyMapProps, 'position' | 'className'>) {
-	const map = useMap()
+function LocateBtn({ setPos, zoom }: Omit<MapProps, 'position' | 'className'>) {
+	const map = useGoogleMap()
 
 	const handleLocate = () => {
 		if (navigator.geolocation) {
 			navigator.geolocation.getCurrentPosition(
 				(position) => {
 					setPos([position.coords.latitude, position.coords.longitude])
-					map.setView(
-						[position.coords.latitude, position.coords.longitude],
-						zoom
-					)
+					if (map) {
+						map.setCenter({
+							lat: position.coords.latitude,
+							lng: position.coords.longitude,
+						})
+						map.setZoom(zoom)
+					}
 				},
 				() => {
 					alert('Unable to retrieve your location')
@@ -39,31 +46,31 @@ function LocateBtn({
 	return (
 		<button
 			onClick={handleLocate}
-			className="leaflet-bar leaflet-control flex justify-center items-center w-[34px] h-[34px] ml-[10px] mt-20 top bg-white hover:cursor-pointer"
+			className="absolute bottom-48 right-3 locate-btn"
 		>
-			<Locate size={20} />
+			<Locate size={24} />
 		</button>
 	)
 }
 
-export default function MyMap(props: MyMapProps) {
-	const { position, setPos, zoom, className } = props
+const GoogleMapComponent = (props: MapProps) => {
+	const { position, setPos, zoom } = props
+
+	const center = {
+		lat: position[0],
+		lng: position[1],
+	}
 
 	return (
-		<MapContainer
-			center={position}
-			zoom={zoom}
-			scrollWheelZoom={true}
-			className={className}
+		<LoadScript
+			googleMapsApiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || ''}
 		>
-			<TileLayer
-				attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-				url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-			/>
-			<Marker position={position}>
-				<Popup>Current Location</Popup>
-			</Marker>
-			<LocateBtn setPos={setPos} zoom={zoom} />
-		</MapContainer>
+			<GoogleMap mapContainerStyle={containerStyle} center={center} zoom={zoom}>
+				<Marker position={center} />
+				<LocateBtn setPos={setPos} zoom={zoom} />
+			</GoogleMap>
+		</LoadScript>
 	)
 }
+
+export default GoogleMapComponent

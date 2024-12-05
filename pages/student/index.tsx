@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import dynamic from 'next/dynamic'
 import ProtectedRoute from '@/components/protected_route'
 import Navbar from '@/components/navbar'
-import 'leaflet/dist/leaflet.css'
+// import 'leaflet/dist/leaflet.css'
 
 // Dynamically import the Map component to avoid SSR issues
 const Map = dynamic(() => import('@/components/map'), { ssr: false })
