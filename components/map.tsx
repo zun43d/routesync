@@ -4,6 +4,7 @@ import {
 	LoadScript,
 	MarkerF,
 	useGoogleMap,
+	TrafficLayer,
 } from '@react-google-maps/api'
 import { Locate } from 'lucide-react'
 import MapDirections from '@/components/map-directions'
@@ -105,6 +106,7 @@ const GoogleMapComponent = (props: MapProps) => {
 				}}
 			>
 				<MarkerF position={center} />
+				<TrafficLayer />
 				<button
 					onClick={() => setStart(!start)}
 					className="absolute top-0 right-0 bg-white p-2"
