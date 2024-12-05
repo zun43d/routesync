@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react'
 import dynamic from 'next/dynamic'
 import ProtectedRoute from '@/components/protected_route'
 import Navbar from '@/components/navbar'
-// import 'leaflet/dist/leaflet.css'
 
 // Dynamically import the Map component to avoid SSR issues
 const Map = dynamic(() => import('@/components/map'), { ssr: false })
@@ -13,14 +12,25 @@ export default function AdminPanel() {
 
 	useEffect(() => {
 		if (navigator.geolocation) {
-			navigator.geolocation.getCurrentPosition(
+			const watchId = navigator.geolocation.watchPosition(
 				(position) => {
 					setCoords([position.coords.latitude, position.coords.longitude])
 				},
-				() => {
+				(error) => {
+					console.error('Error watching position:', error)
 					alert('Unable to retrieve your location')
+				},
+				{
+					enableHighAccuracy: true,
+					timeout: 5000,
+					maximumAge: 0,
 				}
 			)
+
+			// Cleanup function to clear the watch when the component unmounts
+			return () => {
+				navigator.geolocation.clearWatch(watchId)
+			}
 		} else {
 			alert('Geolocation is not supported by your browser')
 		}
