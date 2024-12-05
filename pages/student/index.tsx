@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import dynamic from 'next/dynamic'
 import ProtectedRoute from '@/components/protected_route'
 import Navbar from '@/components/navbar'
@@ -10,31 +10,20 @@ export default function AdminPanel() {
 	const [coords, setCoords] = useState<[number, number]>([23.801494, 90.426163])
 	const zoom = 17
 
-	useEffect(() => {
-		if (navigator.geolocation) {
-			const watchId = navigator.geolocation.watchPosition(
-				(position) => {
-					setCoords([position.coords.latitude, position.coords.longitude])
-				},
-				(error) => {
-					console.error('Error watching position:', error)
-					alert('Unable to retrieve your location')
-				},
-				{
-					enableHighAccuracy: true,
-					timeout: 5000,
-					maximumAge: 0,
-				}
-			)
-
-			// Cleanup function to clear the watch when the component unmounts
-			return () => {
-				navigator.geolocation.clearWatch(watchId)
-			}
-		} else {
-			alert('Geolocation is not supported by your browser')
-		}
-	}, [])
+	// useEffect(() => {
+	// 	if (navigator.geolocation) {
+	// 		navigator.geolocation.getCurrentPosition(
+	// 			(position) => {
+	// 				setCoords([position.coords.latitude, position.coords.longitude])
+	// 			},
+	// 			() => {
+	// 				alert('Unable to retrieve your location')
+	// 			}
+	// 		)
+	// 	} else {
+	// 		alert('Geolocation is not supported by your browser')
+	// 	}
+	// }, [])
 
 	return (
 		<ProtectedRoute>
@@ -44,7 +33,7 @@ export default function AdminPanel() {
 					position={coords}
 					setPos={setCoords}
 					zoom={zoom}
-					className="h-[100vh] absolute top-0 -z-10"
+					className="h-[93vh] xl:h-[100vh] absolute top-0 -z-10"
 				/>
 			</div>
 		</ProtectedRoute>

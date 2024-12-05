@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import {
 	GoogleMap,
 	LoadScript,
@@ -20,28 +20,16 @@ interface MapProps {
 	className?: string
 }
 
-function LocateBtn({ setPos, zoom }: Omit<MapProps, 'position' | 'className'>) {
+function LocateBtn({ position, zoom }: Omit<MapProps, 'className'>) {
 	const map = useGoogleMap()
 
 	const handleLocate = () => {
-		if (navigator.geolocation) {
-			navigator.geolocation.getCurrentPosition(
-				(position) => {
-					setPos([position.coords.latitude, position.coords.longitude])
-					if (map) {
-						map.setCenter({
-							lat: position.coords.latitude,
-							lng: position.coords.longitude,
-						})
-						map.setZoom(zoom)
-					}
-				},
-				() => {
-					alert('Unable to retrieve your location')
-				}
-			)
-		} else {
-			alert('Geolocation is not supported by your browser')
+		if (map) {
+			map.setCenter({
+				lat: position[0],
+				lng: position[1],
+			})
+			map.setZoom(zoom)
 		}
 	}
 
@@ -68,6 +56,32 @@ const GoogleMapComponent = (props: MapProps) => {
 		[position]
 	)
 
+	useEffect(() => {
+		if (navigator.geolocation) {
+			const watchId = navigator.geolocation.watchPosition(
+				(position) => {
+					setPos([position.coords.latitude, position.coords.longitude])
+				},
+				(error) => {
+					console.error('Error watching position:', error)
+					alert('Unable to retrieve your location')
+				},
+				{
+					enableHighAccuracy: true,
+					timeout: 5000,
+					maximumAge: 0,
+				}
+			)
+
+			// Cleanup function to clear the watch when the component unmounts
+			return () => {
+				navigator.geolocation.clearWatch(watchId)
+			}
+		} else {
+			alert('Geolocation is not supported by your browser')
+		}
+	}, [setPos])
+
 	return (
 		<LoadScript
 			googleMapsApiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || ''}
@@ -75,8 +89,14 @@ const GoogleMapComponent = (props: MapProps) => {
 			<GoogleMap
 				mapContainerClassName={className}
 				mapContainerStyle={containerStyle}
-				center={center}
-				zoom={zoom}
+				center={useMemo(
+					() => ({
+						lat: position[0],
+						lng: position[1],
+					}),
+					[]
+				)}
+				zoom={10}
 				options={{
 					// colorScheme: 'DARK',
 					fullscreenControl: false,
@@ -92,7 +112,7 @@ const GoogleMapComponent = (props: MapProps) => {
 					{start ? 'Stop' : 'Start'}
 				</button>
 				{start && <MapDirections />}
-				<LocateBtn setPos={setPos} zoom={zoom} />
+				<LocateBtn position={position} setPos={setPos} zoom={zoom} />
 			</GoogleMap>
 		</LoadScript>
 	)
