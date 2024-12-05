@@ -14,7 +14,7 @@ export default function StudentsPage() {
 	useEffect(() => {
 		const fetchStudents = async () => {
 			try {
-				const students = await getUsersByRole('drivers')
+				const students = await getUsersByRole('driver')
 				setData(students)
 			} catch (error) {
 				console.error('Error fetching drivers:', error)

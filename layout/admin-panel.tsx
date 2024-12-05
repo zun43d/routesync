@@ -25,7 +25,7 @@ export default function AdminPanel(props: ComponentPropsWithoutRef<'div'>) {
 						{data.nav.map((item, index) => (
 							<Link
 								key={index}
-								href={'/admin/' + item.loc}
+								href={`/admin/${item.loc}`}
 								className="w-full flex items-center gap-2 p-3 hover:bg-gray-100"
 							>
 								<item.icon />
