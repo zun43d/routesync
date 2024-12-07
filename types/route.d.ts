@@ -8,3 +8,11 @@ export interface Route {
 	waypoints: GeoPoint[]
 	driver: DocumentReference
 }
+
+export interface RouteFormatted {
+	route_id: string
+	from: string
+	to: string
+	waypoints: string[]
+	driver: DocumentReference
+}

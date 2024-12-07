@@ -1,7 +1,8 @@
 import { useState } from 'react'
 import dynamic from 'next/dynamic'
-import ProtectedRoute from '@/components/protected_route'
+import ProtectedRoute from '@/components/protected-route'
 import Navbar from '@/components/navbar'
+import RoutesPicker from '@/components/routes-picker'
 
 // Dynamically import the Map component to avoid SSR issues
 const Map = dynamic(() => import('@/components/map'), { ssr: false })
@@ -33,8 +34,9 @@ export default function AdminPanel() {
 					position={coords}
 					setPos={setCoords}
 					zoom={zoom}
-					className="h-[93vh] xl:h-[100vh] absolute top-0 -z-10"
+					className="h-[100dvh] xl:h-[100vh] absolute top-0 -z-10"
 				/>
+				<RoutesPicker className="fixed bottom-12 left-1/2 -translate-x-1/2" />
 			</div>
 		</ProtectedRoute>
 	)

@@ -7,6 +7,7 @@ import {
 	TrafficLayer,
 } from '@react-google-maps/api'
 import { Locate } from 'lucide-react'
+import { useIsMobile } from '@/hooks/use-mobile'
 import MapDirections from '@/components/map-directions'
 
 const containerStyle = {
@@ -103,6 +104,7 @@ const GoogleMapComponent = (props: MapProps) => {
 					fullscreenControl: false,
 					streetViewControl: false,
 					mapTypeControl: false,
+					zoomControl: !useIsMobile(),
 				}}
 			>
 				<MarkerF position={center} />
