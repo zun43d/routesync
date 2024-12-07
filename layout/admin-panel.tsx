@@ -1,6 +1,6 @@
 import { ComponentPropsWithoutRef } from 'react'
 import Navbar from '@/components/navbar'
-import ProtectedRoute from '@/components/protected_route'
+import ProtectedRoute from '@/components/protected-route'
 import { ContactRound, Route, Bus, LayoutDashboard } from 'lucide-react'
 import Link from 'next/link'
 
