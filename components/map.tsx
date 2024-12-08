@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo } from 'react'
 import {
 	GoogleMap,
 	LoadScript,
@@ -10,7 +10,6 @@ import { Locate } from 'lucide-react'
 import { useIsMobile } from '@/hooks/use-mobile'
 import MapDirections from '@/components/map-directions'
 import { useDriverLiveStatus } from '@/context/DriverLiveStatusContext'
-import { Marker } from 'react-leaflet'
 
 const containerStyle = {
 	width: '100%',
@@ -110,7 +109,7 @@ const GoogleMapComponent = (props: MapProps) => {
 					zoomControl: !useIsMobile(),
 				}}
 			>
-				<MarkerF position={center} />
+				<MarkerF position={center} icon="/current-location.png" />
 				<TrafficLayer />
 				{/* <button
 					onClick={() => setStart(!start)}
@@ -118,7 +117,7 @@ const GoogleMapComponent = (props: MapProps) => {
 				>
 					{start ? 'Stop' : 'Start'}
 				</button> */}
-				{selectedRoute && driverLiveStatus && (
+				{selectedRoute && driverLiveStatus?.isStreaming && (
 					<>
 						<MapDirections
 							origin={{
@@ -135,6 +134,7 @@ const GoogleMapComponent = (props: MapProps) => {
 								lat: driverLiveStatus.lat,
 								lng: driverLiveStatus.lng,
 							}}
+							icon="bus-locate.png"
 						/>
 					</>
 				)}

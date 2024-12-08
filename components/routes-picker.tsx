@@ -112,7 +112,7 @@ export default function RoutesPicker(props: ComponentPropsWithoutRef<'div'>) {
 						<p className="text-sm text-muted-foreground animate-pulse">
 							Searching...
 						</p>
-					) : driverLiveStatus ? (
+					) : driverLiveStatus?.isStreaming ? (
 						<div>
 							<p className="text-sm text-muted-foreground flex items-center gap-1.5">
 								<span className=" inline-block bg-green-500 animate-ping w-2 h-2 rounded-full"></span>
