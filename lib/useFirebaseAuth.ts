@@ -29,7 +29,8 @@ const useFirebaseAuth = () => {
 			const docRef = doc(db, 'users', user.uid)
 			const docSnap = await getDoc(docRef)
 			if (docSnap.exists()) {
-				setCurrentUser(docSnap.data() as User)
+				const userData = docSnap.data() as User
+				setCurrentUser({ ...userData, user_id: user.uid })
 			} else {
 				console.error('No such document!')
 			}
@@ -129,6 +130,25 @@ const useFirebaseAuth = () => {
 		return routes
 	}
 
+	const getRouteByDriverID = async (
+		driverID: string
+	): Promise<Route | null> => {
+		const driverRef = doc(db, 'users', driverID)
+		const q = query(
+			collection(db, 'routes'),
+			where('driver', '==', driverRef),
+			limit(1)
+		)
+		const querySnapshot = await getDocs(q)
+
+		if (querySnapshot.empty) {
+			return null
+		}
+
+		const route: Route = querySnapshot.docs[0].data() as Route
+		return { ...route, route_id: querySnapshot.docs[0].id }
+	}
+
 	const getIsDriverLive = async (
 		driverUID: string
 	): Promise<{ isStreaming: boolean; lat: number; lng: number }> => {
@@ -161,6 +181,7 @@ const useFirebaseAuth = () => {
 		setUserData,
 		getRoutes,
 		getIsDriverLive,
+		getRouteByDriverID,
 	}
 }
 
