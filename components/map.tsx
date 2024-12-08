@@ -66,11 +66,11 @@ const GoogleMapComponent = (props: MapProps) => {
 				},
 				(error) => {
 					console.error('Error watching position:', error)
-					alert('Unable to retrieve your location')
+					// alert('Trying to retrieve your location again')
 				},
 				{
 					enableHighAccuracy: true,
-					timeout: 5000,
+					timeout: 10000,
 					maximumAge: 0,
 				}
 			)

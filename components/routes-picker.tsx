@@ -49,7 +49,9 @@ export default function RoutesPicker(props: ComponentPropsWithoutRef<'div'>) {
 			)
 			setRoutes(formattedRoutes)
 		}
-		loadRoutes()
+		setTimeout(() => {
+			loadRoutes()
+		}, 3000)
 	}, [getRoutes])
 
 	return (
