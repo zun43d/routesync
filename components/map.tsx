@@ -9,6 +9,8 @@ import {
 import { Locate } from 'lucide-react'
 import { useIsMobile } from '@/hooks/use-mobile'
 import MapDirections from '@/components/map-directions'
+import { useDriverLiveStatus } from '@/context/DriverLiveStatusContext'
+import { Marker } from 'react-leaflet'
 
 const containerStyle = {
 	width: '100%',
@@ -47,8 +49,9 @@ function LocateBtn({ position, zoom }: Omit<MapProps, 'className'>) {
 
 const GoogleMapComponent = (props: MapProps) => {
 	const { position, setPos, zoom, className } = props
+	const { driverLiveStatus, selectedRoute } = useDriverLiveStatus()
 
-	const [start, setStart] = useState(false)
+	// const [start, setStart] = useState(false)
 
 	const center = useMemo(
 		() => ({
@@ -109,13 +112,32 @@ const GoogleMapComponent = (props: MapProps) => {
 			>
 				<MarkerF position={center} />
 				<TrafficLayer />
-				<button
+				{/* <button
 					onClick={() => setStart(!start)}
 					className="absolute top-0 right-0 bg-white p-2"
 				>
 					{start ? 'Stop' : 'Start'}
-				</button>
-				{start && <MapDirections />}
+				</button> */}
+				{selectedRoute && driverLiveStatus && (
+					<>
+						<MapDirections
+							origin={{
+								lat: selectedRoute.from.latitude,
+								lng: selectedRoute.from.longitude,
+							}}
+							dest={{
+								lat: selectedRoute.to.latitude,
+								lng: selectedRoute.to.longitude,
+							}}
+						/>
+						<MarkerF
+							position={{
+								lat: driverLiveStatus.lat,
+								lng: driverLiveStatus.lng,
+							}}
+						/>
+					</>
+				)}
 				<LocateBtn position={position} setPos={setPos} zoom={zoom} />
 			</GoogleMap>
 		</LoadScript>

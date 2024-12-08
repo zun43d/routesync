@@ -1,27 +1,19 @@
 import { useState, useMemo, useCallback } from 'react'
 import { DirectionsRenderer, DirectionsService } from '@react-google-maps/api'
 
-export default function MapDirections() {
+interface MapDirectionsProps {
+	origin: { lat: number; lng: number }
+	dest: { lat: number; lng: number }
+}
+
+export default function MapDirections({ origin, dest }: MapDirectionsProps) {
 	const [directions, setDirections] = useState<
 		google.maps.DirectionsResult | undefined
 	>()
 	const [travelTime, setTravelTime] = useState<string | undefined>()
 
-	const origin = useMemo(
-		() => ({
-			lat: 23.720097576463985,
-			lng: 90.49046398911374,
-		}),
-		[]
-	)
-
-	const dest = useMemo(
-		() => ({
-			lat: 23.80011117572682,
-			lng: 90.42311907304365,
-		}),
-		[]
-	)
+	const memoizedOrigin = useMemo(() => origin, [origin])
+	const memoizedDest = useMemo(() => dest, [dest])
 
 	const directionsCallback = useCallback(
 		(
@@ -41,13 +33,13 @@ export default function MapDirections() {
 
 	const directionsServiceOptions = useMemo(
 		() => ({
-			destination: dest,
-			origin: origin,
-			waypoints: [],
+			destination: memoizedDest,
+			origin: memoizedOrigin,
+			// waypoints: [],
 			optimizeWaypoints: true,
 			travelMode: google.maps.TravelMode.DRIVING,
 		}),
-		[dest, origin]
+		[memoizedDest, memoizedOrigin]
 	)
 
 	const directionsResult = useMemo(() => {

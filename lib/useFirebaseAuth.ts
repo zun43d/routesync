@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { type User } from '@/types/user'
-import { db, auth } from '@/config/firebase'
+import { db, auth, rtdb } from '@/config/firebase'
 import {
 	doc,
 	collection,
@@ -17,6 +17,7 @@ import {
 	onAuthStateChanged,
 	User as FirebaseUser,
 } from 'firebase/auth'
+import { ref, get, child } from 'firebase/database'
 import { type Route } from '@/types/route'
 
 const useFirebaseAuth = () => {
@@ -128,6 +129,18 @@ const useFirebaseAuth = () => {
 		return routes
 	}
 
+	const getIsDriverLive = async (
+		driverUID: string
+	): Promise<{ isStreaming: boolean; lat: number; lng: number }> => {
+		const dbRef = ref(rtdb)
+		const snapshot = await get(child(dbRef, `drivers/${driverUID}`))
+		if (snapshot.exists()) {
+			return snapshot.val()
+		} else {
+			throw new Error('No data available')
+		}
+	}
+
 	const logout = async (): Promise<void> => {
 		try {
 			await auth.signOut()
@@ -147,6 +160,7 @@ const useFirebaseAuth = () => {
 		getUsersByRole,
 		setUserData,
 		getRoutes,
+		getIsDriverLive,
 	}
 }
 
